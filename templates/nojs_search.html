@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block page_title %}Search{% endblock %}
+{% block title %}Search Articles{% endblock %}
+
+{% block main %}
+
+    <form action="{% url "nojs_search" %}" method="get">
+        <label for="q">Search Article Titles:</label><input type="text" name="q">
+        <input type="submit" value="Search...">
+    </form>
+    {% if object_list %}
+        <p class="lead">Here are the articles, up to 30, click the title to delete individual sentences:</p>
+        <ol>
+        {% for result in object_list %}
+            <li><a href="{% url "nojs_article" result.id %}">{{ result.title|safe }}</a>
+                (<a href="{% url "nojs_delete_article" result.id %}">delete this article</a>)</li>
+        {% endfor %}
+        </ol>
+    {% endif %}
+{% endblock %}
+
+{% block sidebar %}{% endblock %}

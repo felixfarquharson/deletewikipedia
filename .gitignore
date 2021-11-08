@@ -1,0 +1,10 @@
+/importer.py
+/deletewikipedia/settings.py
+/main/migrations/*
+/.idea/*
+/venv/*
+/static/*
+/main/migrations/*
+/venv/
+/executecmd.py
+/.gitignore

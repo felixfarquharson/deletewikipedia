@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block page_title %}{{ title|safe }}{% endblock %}
+{% block title %}{{ title|safe }}{% endblock %}
+
+{% block main %}
+    <form action="{% url "nojs_delete_sentence" article_id %}" method="post">
+        {% csrf_token %}
+        <p>
+        {% for sen in sentences %}
+            {% if sen.deleted is False %}
+                <label for="{{ sen.id }}">{{ sen.text }}</label><input name="{{ sen.id }}" type="checkbox">
+                {% if sen.newline %}
+                    </p><p>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        </p>
+
+        <script src='https://www.google.com/recaptcha/api.js'></script>
+        <div class="g-recaptcha" data-sitekey="6LdgOR4dAAAAAIfqq7F770OIHTsLpIV_e79dQZ4s"></div>
+        <input type="submit">
+    </form>
+{% endblock %}
+
+{% block sidebar %}{% endblock %}
