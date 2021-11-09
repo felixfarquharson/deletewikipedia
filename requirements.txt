@@ -1,4 +1,3 @@
 Django
 gunicorn
-psycopg2_binary
-django-cookie-consent
+psycopg2

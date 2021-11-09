@@ -16,11 +16,11 @@ def _get_context():
     context = {}
 
     context["top_article_deleters"] = User.objects.annotate(num_articles=Count("deletedarticle")
-                                                                ).order_by("num_articles")[:10]
+                                                                ).order_by("num_articles")[:4]
     context["top_sentence_deleters"] = User.objects.annotate(num_sentences=Count("deletedsentence")
-                                                                ).order_by("num_sentences")[:10]
-    context["recently_deleted_sentences"] = DeletedSentence.objects.order_by("-dt")[:10]
-    context["recently_deleted_articles"] = DeletedArticle.objects.order_by("-dt")[:10]
+                                                                ).order_by("num_sentences")[:4]
+    context["recently_deleted_sentences"] = DeletedSentence.objects.order_by("-dt")[:4]
+    context["recently_deleted_articles"] = DeletedArticle.objects.order_by("-dt")[:4]
     return context
 
 
@@ -43,7 +43,8 @@ def _get_sentences(article_obj, del_sen_list):
     text = article_obj.text.replace("\n", "UjioO087SS")
     split_text = list(re.split("(\.UjioO087SS|\.\W?)", text))
     print(split_text)
-    split_text = [split_text[i-1]+split_text[i] for i in range(1, len(split_text), 2) if split_text[i] == ". " or split_text[i] == ".UjioO087SS"]
+    split_text = [split_text[i-1]+split_text[i] for i in range(1, len(split_text), 2) if split_text[i] == ". "
+                  or split_text[i] == ".UjioO087SS"]
     print(split_text)
     text_list = [{"id": i, "text": split_text[i], "deleted":False, "newline":False}
                  for i in range(len(split_text))]
@@ -63,7 +64,7 @@ class NojsSearch(ListView):
     def get_queryset(self):
         query = self.request.GET.get("q", '')
         if query != "":
-            return Article.objects.filter(title__search=query, deletedarticle__isnull=True)[:30]
+            return Article.objects.filter(title__contains=query, deletedarticle__isnull=True)[:30]
         else:
             return Article.objects.none()
 

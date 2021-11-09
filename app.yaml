@@ -1,5 +1,5 @@
 runtime: python39
-instance_class: F1
+instance_class: F4_HIGHMEM
 
 entrypoint: gunicorn -b :$PORT deletewikipedia.wsgi
 
@@ -9,5 +9,8 @@ handlers:
 - url: /favicon\.ico
   static_files: favicon.ico
   upload: favicon\.ico
+- url: /loaderio-45612f643342aa8d762a738086066cb3\.txt
+  static_files: loaderio-45612f643342aa8d762a738086066cb3.txt
+  upload: loaderio-45612f643342aa8d762a738086066cb3\.txt
 - url: /.*
   script: auto

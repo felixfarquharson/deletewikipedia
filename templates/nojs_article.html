@@ -1,20 +1,24 @@
 {% extends "base.html" %}
 
 {% block page_title %}{{ title|safe }}{% endblock %}
-{% block title %}{{ title|safe }}{% endblock %}
+{% block title %}{{ title|safe }}<small><a href="{% url "nojs_delete_article" article_id %}">delete article</a></small>{% endblock %}
 
 {% block main %}
     <form action="{% url "nojs_delete_sentence" article_id %}" method="post">
         {% csrf_token %}
         <p>
-        {% for sen in sentences %}
-            {% if sen.deleted is False %}
-                <label for="{{ sen.id }}">{{ sen.text }}</label><input name="{{ sen.id }}" type="checkbox">
-                {% if sen.newline %}
-                    </p><p>
+        {% if sentences %}
+            {% for sen in sentences %}
+                {% if sen.deleted is False %}
+                    <label for="{{ sen.id }}">{{ sen.text }}</label><input name="{{ sen.id }}" type="checkbox">
+                    {% if sen.newline %}
+                        </p><p>
+                    {% endif %}
                 {% endif %}
-            {% endif %}
-        {% endfor %}
+            {% endfor %}
+        {% else %}
+            No content in this article
+        {% endif %}
         </p>
 
         <script src='https://www.google.com/recaptcha/api.js'></script>
@@ -22,5 +26,3 @@
         <input type="submit">
     </form>
 {% endblock %}
-
-{% block sidebar %}{% endblock %}
